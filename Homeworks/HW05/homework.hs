@@ -162,9 +162,12 @@ permutations' xs = concat [map (x:) $ permutations' ys | (x,ys) <- combs xs]
     combs xs = [(xs !! i, map fst $ filter ((/= i) . snd) $ zip xs l) | i <- l]
     l     = [0..length xs - 1]
 
+-- "cleaner" version if Eq could be used
+permutations'' :: Eq a => [a] -> [[a]]
 permutations'' [] = [[]]
 permutations'' xs = [y:ys | y <- xs, ys <- permutations'' $ delete' y xs]
 
+delete' :: Eq a => a -> [a] -> [a]
 delete' _ [] = []
 delete' y (x:xs)
   | x == y = xs
